@@ -1,1 +1,115 @@
+#include<iostream>
+using namespace std;
 
+class WP 
+{
+    public:
+        int m, top;
+        char s[10];       
+        WP()
+        {
+            m = 10;
+            top = -1;
+        }
+        
+        int IsEmpty();
+        int IsFull();
+        void push(char);
+        char pop();
+        char getTop();
+        void check(char[]); 
+};
+
+int WP::IsEmpty()
+{
+    if(top == -1)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+int WP::IsFull()
+{
+    if(top == m - 1)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+void WP::push(char a)
+{
+    if(!IsFull())
+    {
+        top++;
+        s[top] = a;
+    }
+    else
+    {
+        cout<<"stack is full"<<endl;
+    }
+}
+
+char WP::pop()
+{
+    char temp;
+    if(!IsEmpty())
+    {
+        temp = s[top];
+        top = top - 1;
+        return temp;
+    }
+    else
+    {
+        return '\0';
+    }
+}
+
+void WP::check(char e[])
+{
+    int i = 0;
+    int f = 0;
+    char del;
+    while(e[i] != '\0')
+    {
+        if(e[i] == '(' || e[i] == '['  || e[i] == '{')
+        {
+            push(e[i]);
+        }
+        if(e[i] == ')'  || e[i] == ']' || e[i] == '}')
+        {
+            del=pop();
+            if((e[i] == ')'&& del!='(')||(e[i] == ']'&& del!='[' )|| ( e[i] == '}'&& del!='{' ))
+            {
+                f=1;
+                break;
+            }
+        }
+        i++;
+    }
+    if(f == 0 && IsEmpty())
+    {
+        cout<<"Given expression is well parenthesiezed";
+    }
+    else
+    {
+        cout<<"Given expression is not well parenthesiezed";
+    }
+}
+
+int main()
+{
+    char e[20];  
+    WP P1;
+    cout<<"Enter expression : ";
+    cin>>e;
+    P1.check(e);
+    return 0;
+}
