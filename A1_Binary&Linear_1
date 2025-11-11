@@ -1,0 +1,111 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+struct member {
+    int PRN;
+    string name;
+    member *next;
+};
+
+char ch;
+member *nnode;
+member *temp;
+
+class SLL {
+public:
+    member *president, *secretory;
+
+    SLL() {
+        president = NULL;
+        secretory = NULL;
+    }
+
+    void display();
+    void add();
+    void count();
+    void create();
+};
+
+void SLL::create() {
+    do {
+        member *nnode = new member;
+        cout << "Enter PRN no of new member: ";
+        cin >> nnode->PRN;
+        cout << "Enter name of new member: ";
+        cin >> nnode->name;
+        nnode->next = NULL;
+
+        if (president == NULL) {
+            president = nnode;
+            secretory = nnode;
+        } else {
+            secretory->next = nnode;
+            secretory = nnode;
+        }
+
+        cout << "Do you want to add new member? y/n: ";
+        cin >> ch;
+    } while (ch == 'y');
+}
+
+void SLL::display() {
+    if (president == NULL) {
+        cout << "Club is empty" << endl;
+    } else {
+        temp = president;
+        while (temp != NULL) {
+            cout << "PRN: " << temp->PRN << " | Name: " << temp->name << endl;
+            temp = temp->next;
+        }
+    }
+}
+
+void SLL::add() {
+    do {
+        char ans;
+        cout << "Where do you want to store? h (head/president) or t (tail/secretary): ";
+        cin >> ans;
+
+        nnode = new member;
+        cout << "Enter PRN no of new member: ";
+        cin >> nnode->PRN;
+        cout << "Enter name of new member: ";
+        cin >> nnode->name;
+        nnode->next = NULL;
+
+        if (ans == 'h') { // add at head (president)
+            nnode->next = president;
+            president = nnode;
+        } else if (ans == 't') { // add at tail (secretary)
+            secretory->next = nnode;
+            secretory = nnode;
+        }
+
+        cout << "Do you want to continue? y/n: ";
+        cin >> ch;
+    } while (ch == 'y');
+}
+
+void SLL::count() {
+    int cnt = 0;
+    temp = president;
+    while (temp != NULL) {
+        cnt++;
+        temp = temp->next;
+    }
+    cout << "Total members: " << cnt << endl;
+}
+
+int main() {
+    SLL club;
+    cout << "Welcome to Pinnacle Club" << endl;
+
+    club.create();   // create initial members
+    club.display();  // display all members
+    club.add();      // add president or secretary
+    club.display();  // display after adding
+    club.count();    // count total members
+
+    return 0;
+}
