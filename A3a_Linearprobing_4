@@ -1,0 +1,98 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+struct record
+{
+    char name[10];
+    int telno;
+};
+
+int main()
+{
+    record lptelDir[10];
+
+    // Initialize linear probing table
+    for (int i = 0; i < 10; i++) 
+    {
+        strcpy(lptelDir[i].name, "empty");
+        lptelDir[i].telno = -1;
+    }
+
+    int n;
+    cout << "How Many Records? ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) 
+    {
+        char Tempname[10];
+        int TempNo;
+        cout << "\nEnter Client Name: ";
+        cin >> Tempname;
+        cout << "Enter Telephone No of client: ";
+        cin >> TempNo;
+
+        int Total = 0;
+        for (int j = 0; Tempname[j] != '\0'; j++) 
+        {
+            Total += Tempname[j];
+        }
+        int h = Total % 10; 
+
+        // Linear Probing 
+        if (strcmp(lptelDir[h].name, "empty") == 0) 
+        {
+            strcpy(lptelDir[h].name, Tempname);
+            lptelDir[h].telno = TempNo;
+            cout << "Stored at position " << h << endl;
+        }
+        else 
+        {
+            cout << "Collision occurred for " << Tempname << " at position " << h << endl;
+            for (int k = 1; k < 10; k++)
+            {
+               int idx = (h + k) % 10;             
+               if (strcmp(lptelDir[idx].name, "empty") == 0)
+               {
+                  strcpy(lptelDir[idx].name, Tempname);
+                  lptelDir[idx].telno = TempNo;
+                  cout << "Stored at position " << idx << " after linear probing" << endl;
+                  break;
+               }
+            }
+        }
+    }
+
+    // Printing linear probing hash table
+    cout << "\nLinear Probing Hash Table:" << endl;
+    cout << "sr.no\tName\tTel No" << endl;
+    for (int i = 0; i < 10; i++) 
+    {
+        cout << i << "\t" << lptelDir[i].name << "\t" << lptelDir[i].telno << endl;
+    }
+
+    // Searching
+    char s;
+    do {
+        char searchName[10];
+        cout << "\nEnter name to search: ";
+        cin >> searchName;
+
+        int found = 0;
+        for(int i = 0; i < 10; i++) 
+        {
+            if(strcmp(lptelDir[i].name, searchName) == 0) 
+            {
+                cout << "Found at position " << i << " -> " << lptelDir[i].name << " " << lptelDir[i].telno << endl;
+                found = 1;
+                break;
+            }
+        }
+        if(!found) cout << "Record not found!" << endl;
+
+        cout << "Do you want to search again? (y/n): ";
+        cin >> s;
+    } while(s == 'y');
+
+    return 0;
+}
