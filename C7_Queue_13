@@ -1,1 +1,128 @@
+#include <iostream>
+using namespace std;    
 
+class JobQueue
+{
+    int arr[5];
+    int front, rear, max;
+
+public:
+    JobQueue()  
+    {
+        front = 0;
+        rear = -1;
+        max = 5;
+    }
+
+    void addjob(int);
+    int deljob();      
+    int isEmpty();
+    int isFull();      
+    void display();
+};
+
+// check if queue is full
+int JobQueue::isFull()
+{
+    if (rear == max - 1)
+        return 1;
+    return 0;
+}
+
+// check if queue is empty
+int JobQueue::isEmpty()
+{
+    if (front > rear)
+        return 1;
+    return 0;
+}
+
+// add job to queue
+void JobQueue::addjob(int job)
+{
+    if (!isFull())
+    {
+        rear++; 
+        arr[rear] = job;
+        cout << "Job " << job << " added to the queue." << endl;
+    }
+    else
+    {
+        cout << "Queue Overflow. Cannot add job " << job << "." << endl;
+    }
+}
+
+// delete job from queue
+int JobQueue::deljob()          
+{
+    if (!isEmpty())
+    {
+        int job = arr[front];
+        front++;
+        return job;
+    }
+    else
+    {
+        cout << "Queue Underflow. No jobs to delete." << endl;
+        return -1;
+    }
+}           
+
+// display jobs in queue
+void JobQueue::display()        
+{
+    if (!isEmpty())
+    {
+        cout << "Jobs in the queue: ";
+        for (int i = front; i <= rear; i++)
+        {
+            cout << arr[i] << " ";
+        }
+        cout << endl;
+    }
+    else
+    {
+        cout << "Queue is empty." << endl;
+    }
+}
+
+int main()
+{
+    JobQueue jq;
+    int choice, job;
+
+    while (true)
+    {
+        cout << "\nMenu:\n";
+        cout << "1. Add Job\n";
+        cout << "2. Delete Job\n";
+        cout << "3. Display Jobs\n";
+        cout << "4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            cout << "Enter job to add: ";
+            cin >> job;
+            jq.addjob(job);
+            break;
+        case 2:
+            job = jq.deljob();
+            if (job != -1)
+                cout << "Deleted job ID: " << job << endl;
+            break;
+        case 3:
+            jq.display();
+            break;
+        case 4:
+            cout << "Exiting program." << endl;
+            return 0;
+        default:
+            cout << "Invalid choice. Please try again." << endl;
+        }
+    }
+
+    return 0;
+}
