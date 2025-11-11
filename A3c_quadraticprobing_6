@@ -1,1 +1,60 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
 
+struct record {
+    char name[10];
+    int telno;
+};
+
+int main() {
+    record qptelDir[10];
+
+    // initialize table
+    for(int i = 0; i < 10; i++) {
+        strcpy(qptelDir[i].name, "empty");
+        qptelDir[i].telno = -1;
+    }
+
+    int n;
+    cout << "How Many Records? ";
+    cin >> n;
+
+    for(int i = 0; i < n; i++) {
+        char Tempname[10];
+        int TempNo;
+        cout << "\nEnter Client Name: ";
+        cin >> Tempname;
+        cout << "Enter Telephone No of client: ";
+        cin >> TempNo;
+
+        int Total = 0;
+        for(int j = 0; Tempname[j] != '\0'; j++) Total += Tempname[j];
+        int h = Total % 10;
+
+        // QUADRATIC PROBING
+        if(strcmp(qptelDir[h].name, "empty") == 0) {
+            strcpy(qptelDir[h].name, Tempname);
+            qptelDir[h].telno = TempNo;
+            cout << "for quadratic probing stored at position " << h << endl;
+        } else {
+            cout << "for quadratic probing collision occurred for " << Tempname << " at position " << h << endl;
+            for(int k = 1; k < 10; k++) {
+                int idx = (h + k*k) % 10;
+                if(strcmp(qptelDir[idx].name, "empty") == 0) {
+                    strcpy(qptelDir[idx].name, Tempname);
+                    qptelDir[idx].telno = TempNo;
+                    break;
+                }
+            }
+        }
+    }
+
+    // print quadratic probing table
+    cout << "\nfor quadratic probing" << endl;
+    cout << "sr.no\tName\tTel No:" << endl;
+    for(int i = 0; i < 10; i++)
+        cout << i << "\t" << qptelDir[i].name << "\t" << qptelDir[i].telno << endl;
+
+    return 0;
+}
