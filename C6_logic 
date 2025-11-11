@@ -1,0 +1,311 @@
+Program Overview
+
+This program checks if an expression (like ({[]})) has well-matched brackets.
+
+Well-matched brackets mean:
+
+1. Every opening bracket (, {, [ has a matching closing bracket ), }, ].
+
+
+2. Brackets are properly nested: the most recent opening bracket closes first.
+
+
+
+Example:
+
+Well-parenthesized: ({[]}) ✅
+
+Not well-parenthesized: ({[}) ❌
+
+
+We use a stack to track brackets.
+
+
+---
+
+Step 1: Basic Concept – Stack
+
+A stack is a container that follows LIFO (Last In First Out).
+
+Last In → last element added.
+
+First Out → first element removed.
+
+
+
+Real-life example:
+
+Plates in a pile.
+
+You add a plate on top (push).
+
+You remove the top plate first (pop).
+
+
+Why stack for brackets?
+
+The last opening bracket must match the next closing bracket.
+
+Example: ({[]}) → [ is last opened, must close first.
+
+
+
+---
+
+Step 2: Code Explanation
+
+Header & namespace
+
+#include<iostream>
+using namespace std;
+
+#include<iostream> → allows cout (print) and cin (input).
+
+using namespace std; → lets us write cout instead of std::cout.
+
+
+
+---
+
+Class Definition
+
+class WP 
+{
+    public:
+        int m, top;
+        char s[10];       
+        WP()
+        {
+            m = 10;
+            top = -1;
+        }
+
+Class → a blueprint for a stack.
+
+int m → size of stack.
+
+int top → stores index of top element. -1 means empty stack.
+
+char s[10] → array to store brackets.
+
+Constructor WP() → runs automatically, sets top = -1 and m = 10.
+
+
+
+---
+
+Stack Functions
+
+1. IsEmpty
+
+int WP::IsEmpty() { if(top==-1) return 1; else return 0; }
+
+Checks if stack is empty.
+
+Returns 1 → empty, 0 → not empty.
+
+
+
+---
+
+2. IsFull
+
+int WP::IsFull() { if(top==m-1) return 1; else return 0; }
+
+Checks if stack is full.
+
+Returns 1 → full, 0 → not full.
+
+
+
+---
+
+3. Push
+
+void WP::push(char a)
+{
+    if(!IsFull()) { top++; s[top]=a; }
+    else cout<<"stack is full"<<endl;
+}
+
+Adds a character to top of stack.
+
+First checks if stack is full.
+
+
+Example:
+
+Stack: empty (top=-1)
+
+Push '(' → top = 0, s[0] = '('
+
+
+
+---
+
+4. Pop
+
+char WP::pop()
+{
+    if(!IsEmpty()) { char temp=s[top]; top--; return temp; }
+    else return '\0';
+}
+
+Removes and returns the top element.
+
+If stack is empty → returns '\0' (nothing).
+
+
+Example:
+
+Stack: (
+
+Pop → returns '(', stack becomes empty.
+
+
+
+---
+
+Step 3: Checking the Expression
+
+void WP::check(char e[])
+
+e[] → input expression (like ({[]})).
+
+
+Logic in simple steps:
+
+1. Go through each character of expression.
+
+
+2. If opening bracket (, {, [ → push to stack.
+
+
+3. If closing bracket ), }, ] → pop top of stack and check:
+
+If it matches the correct opening bracket → OK.
+
+If it doesn’t match → expression invalid, stop checking.
+
+
+
+4. After going through all characters:
+
+If stack is empty → all brackets matched → expression valid.
+
+If stack not empty → some brackets left unmatched → expression invalid.
+
+
+
+
+
+---
+
+Step 4: Main Function
+
+int main()
+{
+    char e[20];  
+    WP P1;
+    cout<<"Enter expression : ";
+    cin>>e;
+    P1.check(e);
+    return 0;
+}
+
+Input string e from user.
+
+Create stack object P1.
+
+Call check() to verify brackets.
+
+
+
+---
+
+Step 5: Step-by-Step Example with Stack Diagram
+
+Example 1: Well-parenthesized ({[]})
+
+Step	Character	Action	Stack
+
+1	(	push	(
+2	{	push	( {
+3	[	push	( { [
+4	]	pop & match	( {
+5	}	pop & match	(
+6	)	pop & match	empty
+
+
+✅ Stack empty → expression valid
+
+
+---
+
+Example 2: Not well-parenthesized ({[})
+
+Step	Character	Action	Stack
+
+1	(	push	(
+2	{	push	( {
+3	[	push	( { [
+4	}	pop & check	mismatch ❌
+
+
+❌ Mismatch detected → expression invalid
+
+
+---
+
+Step 6: Possible Viva Questions
+
+1. Purpose of the program?
+
+To check if brackets in an expression are correctly matched.
+
+
+
+2. Why use a stack?
+
+Last opened bracket must be closed first → stack is LIFO.
+
+
+
+3. What if stack empty but closing bracket appears?
+
+Pop returns \0 → mismatch → invalid expression.
+
+
+
+4. What if stack not empty at the end?
+
+Some opening brackets were not closed → invalid expression.
+
+
+
+5. Explain push() and pop()
+
+push() → adds element to stack top
+
+pop() → removes element from stack top
+
+
+
+6. Explain check()
+
+Traverse input, push opening brackets, pop and match closing brackets.
+
+
+
+7. Example of well and not well-parenthesized
+
+Well: ({[]}) ✅
+
+Not well: ({[}) ❌
+
+
+
+8. Can this handle more than 10 brackets?
+
+No, stack size = 10. Can increase m to handle longer expressions.
+
