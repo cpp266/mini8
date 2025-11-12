@@ -1,0 +1,465 @@
+Program Overview
+
+This program works with a Binary Search Tree (BST). A BST is a tree in which:
+
+1. Each node has at most two children – left and right.
+
+
+2. For any node:
+
+Left child < Node < Right child
+
+This property makes searching efficient.
+
+
+
+
+Operations in this program:
+
+1. Insert nodes in BST
+
+
+2. Find height (longest path from root to leaf)
+
+
+3. Find minimum value
+
+
+4. Mirror the BST
+
+
+5. Search for a value
+
+
+6. Display tree using inorder traversal
+
+
+
+
+---
+
+Step 1: Header and namespace
+
+#include <iostream>
+using namespace std;
+
+#include<iostream> → allows us to use input (cin) and output (cout).
+
+using namespace std; → lets us write cout instead of std::cout.
+
+
+
+---
+
+Step 2: Node structure
+
+struct Node {
+    int data;
+    Node *left, *right;
+
+    Node(int value) {
+        data = value;
+        left = right = NULL;
+    }
+};
+
+struct Node → defines a tree node.
+
+int data → stores the value in the node.
+
+Node *left, *right → pointers to left and right child nodes.
+
+Constructor Node(int value) initializes:
+
+data = value
+
+left = right = NULL → initially, no children
+
+
+
+Example:
+
+Node created with 10 → data=10, left=NULL, right=NULL
+
+
+
+---
+
+Step 3: Insert Node in BST
+
+Node* insert(Node* root, int value) {
+    if (root == NULL)
+        return new Node(value);
+
+    if (value < root->data)
+        root->left = insert(root->left, value);
+    else if (value > root->data)
+        root->right = insert(root->right, value);
+
+    return root;
+}
+
+Explanation:
+
+If tree empty (root == NULL) → create a new node and return it.
+
+If value < root->data → go left and recursively insert there.
+
+If value > root->data → go right and recursively insert there.
+
+Returns root of updated tree.
+
+
+Example:
+Insert values in order: 10, 5, 15
+
+10
+   /  \
+  5    15
+
+
+---
+
+Step 4: Height of BST
+
+int height(Node* root) {
+    if (root == NULL)
+        return 0;
+    int leftHeight = height(root->left);
+    int rightHeight = height(root->right);
+    return max(leftHeight, rightHeight) + 1;
+}
+
+Height = number of nodes in longest path from root to leaf.
+
+Base case: if tree is empty → height = 0
+
+Recursively:
+
+Find height of left and right subtrees
+
+Take the maximum and add 1 (for root node)
+
+
+
+Example:
+
+10
+   /  \
+  5    15
+ / 
+2
+
+Height = 3 nodes (10 → 5 → 2)
+
+
+
+---
+
+Step 5: Find Minimum Value
+
+int findMin(Node* root) {
+    if (root == NULL) {
+        cout << "Tree is empty!" << endl;
+        return -1;
+    }
+    while (root->left != NULL)
+        root = root->left;
+    return root->data;
+}
+
+Minimum value in BST → leftmost node.
+
+Go left until left == NULL → return that node’s data
+
+
+Example:
+
+10
+   /  \
+  5    15
+ / 
+2
+
+Minimum = 2
+
+
+
+---
+
+Step 6: Mirror BST
+
+void mirror(Node* root) {
+    if (root == NULL)
+        return;
+    Node* temp = root->left;
+    root->left = root->right;
+    root->right = temp;
+    mirror(root->left);
+    mirror(root->right);
+}
+
+Mirror → swap left and right children of every node.
+
+Recursively do this for all nodes.
+
+
+Example:
+Original:
+
+10
+   /  \
+  5    15
+
+Mirror:
+
+10
+   /  \
+  15   5
+
+
+---
+
+Step 7: Search in BST
+
+bool search(Node* root, int key) {
+    if (root == NULL)
+        return false;
+    if (root->data == key)
+        return true;
+    else if (key < root->data)
+        return search(root->left, key);
+    else
+        return search(root->right, key);
+}
+
+Base case: root == NULL → key not found
+
+If root->data == key → found → return true
+
+If key < root->data → search left subtree
+
+Else → search right subtree
+
+
+Example:
+Search 15 in above BST → found
+Search 7 → not found
+
+
+---
+
+Step 8: Inorder Traversal
+
+void inorder(Node* root) {
+    if (root != NULL) {
+        inorder(root->left);
+        cout << root->data << " ";
+        inorder(root->right);
+    }
+}
+
+Inorder traversal → left → root → right
+
+Prints BST in sorted order
+
+
+Example:
+BST:
+
+10
+   /  \
+  5    15
+
+Inorder → 5 10 15
+
+
+---
+
+Step 9: Main Function
+
+int main() {
+    Node* root = NULL;
+    int n, value;
+
+    cout << "Enter number of elements to insert initially: ";
+    cin >> n;
+
+    cout << "Enter values: ";
+    for (int i = 0; i < n; i++) {
+        cin >> value;
+        root = insert(root, value);
+    }
+
+    cout << "\nInorder traversal of BST: ";
+    inorder(root);
+    cout << endl;
+
+Create empty BST → root=NULL
+
+Take n initial values → insert them in BST
+
+Print inorder traversal to verify structure
+
+
+
+---
+
+cout << "\nEnter value to insert: ";
+    cin >> value;
+    root = insert(root, value);
+    cout << "Inorder after insertion: ";
+    inorder(root);
+    cout << endl;
+
+Insert one new node → display inorder
+
+
+
+---
+
+cout << "\nNumber of nodes in longest path (Height): " << height(root) << endl;
+
+Prints height of BST → number of nodes in longest path
+
+
+
+---
+
+cout << "Minimum value in BST: " << findMin(root) << endl;
+
+Prints minimum value → leftmost node
+
+
+
+---
+
+cout << "\nEnter value to search: ";
+    cin >> value;
+    if (search(root, value))
+        cout << value << " found in BST!" << endl;
+    else
+        cout << value << " not found in BST!" << endl;
+
+Searches for a value → prints if found or not
+
+
+
+---
+
+mirror(root);
+    cout << "Inorder traversal after mirroring: ";
+    inorder(root);
+    cout << endl;
+
+Mirror BST → display inorder → confirms left/right children swapped
+
+
+
+---
+
+Step 10: Example Run
+
+Input values: 10 5 15 2
+
+Inorder: 2 5 10 15
+
+Insert 12 → Inorder: 2 5 10 12 15
+
+Height → 3 (10 → 5 → 2 or 10 → 15 → 12)
+
+Minimum → 2
+
+Search 12 → Found
+
+Mirror → Inorder: 15 12 10 5 2
+
+
+
+---
+
+Step 11: Tree Diagram Example
+
+Original BST:
+
+10
+       /  \
+      5    15
+     /    /
+    2    12
+
+Mirror BST:
+
+10
+       /  \
+      15    5
+       \     \
+       12     2
+
+
+---
+
+Step 12: Viva Questions
+
+1. What is a BST?
+
+Binary tree where left child < node < right child
+
+
+
+2. Why use BST instead of array?
+
+Efficient search, insert, delete → O(log n) average
+
+
+
+3. Difference between BST and Binary Tree?
+
+BST maintains left < node < right property
+
+Binary Tree has no order restriction
+
+
+
+4. How is height calculated?
+
+Longest path from root to leaf node
+
+
+
+5. How to find minimum in BST?
+
+Leftmost node
+
+
+
+6. What is mirror of tree?
+
+Swap left and right child of all nodes
+
+
+
+7. What is inorder traversal?
+
+Left → Root → Right → gives sorted order in BST
+
+
+
+8. Search complexity in BST?
+
+O(log n) average, O(n) worst if skewed
+
+
+
+9. What happens if duplicate value is inserted?
+
+In this program, duplicate ignored (no insertion)
+
+
+
+10. Example of insertion and mirroring
+
+
+
+Already explained in diagrams
+
