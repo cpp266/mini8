@@ -1,0 +1,389 @@
+Program Overview
+
+This program simulates a job queue, where jobs (like tasks or processes) are added and deleted in FIFO order (First In, First Out).
+
+FIFO: The first job added is the first one to be removed.
+
+Example: Think of people standing in a line at a ticket counter → first person in line is served first.
+
+
+
+---
+
+Step 1: Header and namespace
+
+#include <iostream>
+using namespace std;
+
+#include<iostream> → lets us use cin (input) and cout (output).
+
+using namespace std; → allows us to write cout instead of std::cout.
+
+
+
+---
+
+Step 2: Class Declaration
+
+class JobQueue
+{
+    int arr[5];
+    int front, rear, max;
+
+public:
+    JobQueue()  
+    {
+        front = 0;
+        rear = -1;
+        max = 5;
+    }
+
+    void addjob(int);
+    int deljob();      
+    int isEmpty();
+    int isFull();      
+    void display();
+};
+
+arr[5] → array to store jobs (maximum 5 jobs).
+
+front → points to the first element in the queue.
+
+rear → points to the last element in the queue.
+
+max = 5 → maximum number of jobs queue can hold.
+
+
+Constructor:
+
+front = 0 → start of queue.
+
+rear = -1 → queue initially empty.
+
+max = 5 → size of queue.
+
+
+Functions:
+
+1. addjob(int) → add a job to the queue.
+
+
+2. deljob() → delete a job from the queue.
+
+
+3. isEmpty() → check if queue is empty.
+
+
+4. isFull() → check if queue is full.
+
+
+5. display() → show all jobs in queue.
+
+
+
+
+---
+
+Step 3: Check if Queue is Full
+
+int JobQueue::isFull()
+{
+    if (rear == max - 1)
+        return 1;
+    return 0;
+}
+
+If rear == max-1 → all positions in queue are occupied → queue full.
+
+Returns 1 if full, 0 if not.
+
+
+Example:
+
+max = 5 → indices 0,1,2,3,4
+
+If rear = 4 → queue full
+
+
+
+---
+
+Step 4: Check if Queue is Empty
+
+int JobQueue::isEmpty()
+{
+    if (front > rear)
+        return 1;
+    return 0;
+}
+
+If front > rear → no jobs in queue → queue empty.
+
+Initially: front = 0, rear = -1 → empty.
+
+
+
+---
+
+Step 5: Add Job to Queue
+
+void JobQueue::addjob(int job)
+{
+    if (!isFull())
+    {
+        rear++; 
+        arr[rear] = job;
+        cout << "Job " << job << " added to the queue." << endl;
+    }
+    else
+    {
+        cout << "Queue Overflow. Cannot add job " << job << "." << endl;
+    }
+}
+
+Checks if queue is full using isFull().
+
+If not full → increment rear and add job to arr[rear].
+
+Else → print Queue Overflow.
+
+
+Example:
+
+Queue empty: front=0, rear=-1
+
+Add job 101 → rear=0, arr[0]=101
+
+
+
+---
+
+Step 6: Delete Job from Queue
+
+int JobQueue::deljob()
+{
+    if (!isEmpty())
+    {
+        int job = arr[front];
+        front++;
+        return job;
+    }
+    else
+    {
+        cout << "Queue Underflow. No jobs to delete." << endl;
+        return -1;
+    }
+}
+
+Checks if queue is empty using isEmpty().
+
+If not empty → remove job at front and increment front.
+
+Else → print Queue Underflow and return -1.
+
+
+Example:
+
+Queue: [101, 102], front=0, rear=1
+
+Delete job → returns 101, front=1
+
+
+
+---
+
+Step 7: Display Jobs
+
+void JobQueue::display()
+{
+    if (!isEmpty())
+    {
+        cout << "Jobs in the queue: ";
+        for (int i = front; i <= rear; i++)
+        {
+            cout << arr[i] << " ";
+        }
+        cout << endl;
+    }
+    else
+    {
+        cout << "Queue is empty." << endl;
+    }
+}
+
+Checks if queue is empty.
+
+If not → loop from front to rear and print all jobs.
+
+Else → print Queue is empty.
+
+
+
+---
+
+Step 8: Main Function
+
+int main()
+{
+    JobQueue jq;
+    int choice, job;
+
+    while (true)
+    {
+        cout << "\nMenu:\n";
+        cout << "1. Add Job\n2. Delete Job\n3. Display Jobs\n4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            cout << "Enter job to add: ";
+            cin >> job;
+            jq.addjob(job);
+            break;
+        case 2:
+            job = jq.deljob();
+            if (job != -1)
+                cout << "Deleted job ID: " << job << endl;
+            break;
+        case 3:
+            jq.display();
+            break;
+        case 4:
+            cout << "Exiting program." << endl;
+            return 0;
+        default:
+            cout << "Invalid choice. Please try again." << endl;
+        }
+    }
+
+    return 0;
+}
+
+Creates JobQueue object jq.
+
+Infinite menu using while(true) to perform operations:
+
+1. Add job
+
+
+2. Delete job
+
+
+3. Display jobs
+
+
+4. Exit program
+
+
+
+Uses switch to handle user choices.
+
+
+
+---
+
+Step 9: Example Run
+
+Step 1: Add jobs
+
+Add Job: 101
+Add Job: 102
+Add Job: 103
+
+Queue now: [101, 102, 103]
+
+front=0, rear=2
+
+
+Step 2: Delete job
+
+Deleted job ID: 101
+
+Queue now: [102, 103]
+
+front=1, rear=2
+
+
+Step 3: Display jobs
+
+Jobs in the queue: 102 103
+
+Step 4: Add more jobs
+
+If we try to add more than 5 jobs → Queue Overflow
+
+
+
+---
+
+Step 10: Diagram (Queue Movement)
+
+Initial: front=0, rear=-1   Queue empty
+
+Add 101 → [101]  front=0, rear=0
+Add 102 → [101, 102] front=0, rear=1
+Add 103 → [101, 102, 103] front=0, rear=2
+
+Delete job → 101 removed → front=1, rear=2 → [102, 103]
+
+FIFO maintained: first added job is first removed.
+
+
+
+---
+
+Step 11: Possible Viva Questions
+
+1. What is a queue?
+
+Linear data structure where first element added is first removed (FIFO).
+
+
+
+2. Difference between stack and queue?
+
+Stack: LIFO (Last In First Out)
+
+Queue: FIFO (First In First Out)
+
+
+
+3. What is front and rear?
+
+front → first element of queue
+
+rear → last element of queue
+
+
+
+4. What is overflow and underflow?
+
+Overflow → trying to add job to full queue
+
+Underflow → trying to delete job from empty queue
+
+
+
+5. Why check isFull() and isEmpty()?
+
+To prevent adding to a full queue or deleting from empty queue
+
+
+
+6. Example of queue operations?
+
+Add 101, 102, 103 → delete 101 → remaining 102,103
+
+
+
+7. Can queue size be changed?
+
+Not in this program. To allow more jobs, increase max or use dynamic array.
+
+
+
+
+
+---
