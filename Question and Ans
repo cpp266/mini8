@@ -1,0 +1,377 @@
+🧩 SECTION A – Arrays and Hashing
+
+
+---
+
+A-1 (Linear Search and Binary Search)
+
+🔹 Conceptual Questions with Answers
+
+Q1. What is linear search?
+A: Linear search checks each element one by one until the required element is found or the list ends.
+👉 It works for both sorted and unsorted data.
+
+Q2. What is binary search?
+A: Binary search works only on sorted arrays. It repeatedly divides the array in half to find the element quickly.
+
+Q3. Difference between linear and binary search?
+
+Feature	Linear Search	Binary Search
+
+Works on	Unsorted or Sorted	Only Sorted
+Time Complexity	O(n)	O(log n)
+Method	Sequential	Divide and Conquer
+
+
+Q4. What is time complexity?
+A: It means how much time a program takes to execute depending on input size.
+
+Q5. Why must binary search use a sorted array?
+A: Because it compares mid element with key and decides whether to search left or right half — that only makes sense in sorted data.
+
+Q6. What happens if binary search is used on unsorted data?
+A: It gives wrong or unpredictable results.
+
+Q7. When is linear search better than binary search?
+A: When the list is small or unsorted.
+
+
+---
+
+🔹 Code-Logic Questions
+
+Q8. What does mid = (low + high)/2 do?
+A: It finds the middle index of the array to divide the search range.
+
+Q9. Why do we update low = mid + 1 or high = mid - 1?
+A: To ignore the half of the array where the element cannot be present.
+
+Q10. What happens if element is not found?
+A: The loop ends and the program prints “Student not attended”.
+
+Q11. How do you modify linear search to count duplicates?
+A: Instead of stopping when found, continue checking all elements and count matches.
+
+
+---
+
+A-2a (Selection Sort + Top 5 Scores)
+
+🔹 Conceptual Questions
+
+Q1. What is selection sort?
+A: It repeatedly finds the smallest element from unsorted part and puts it at the beginning.
+
+Q2. Why is it called selection sort?
+A: Because it “selects” the minimum element in each pass.
+
+Q3. Is selection sort stable?
+A: No, it’s not stable because it may change order of equal elements.
+
+Q4. Time complexity of selection sort?
+A: O(n²) for all cases.
+
+Q5. Space complexity?
+A: O(1), as it sorts in-place.
+
+Q6. How to get top 5 scores?
+A: Sort array in ascending order and print last 5 elements.
+
+
+---
+
+🔹 Code-Logic Questions
+
+Q7. What does the outer loop represent?
+A: Each pass that selects one minimum element.
+
+Q8. What does the inner loop do?
+A: Finds the smallest element in the unsorted portion.
+
+Q9. Why do we use a temporary variable in swap?
+A: To exchange values without losing data.
+
+Q10. How many passes are required for n elements?
+A: n-1 passes.
+
+
+---
+
+A-2b (Bubble Sort + Top 5 Scores)
+
+🔹 Conceptual Questions
+
+Q1. What is bubble sort?
+A: Bubble sort repeatedly compares adjacent elements and swaps them if they are in the wrong order.
+
+Q2. Why is it called bubble sort?
+A: Because the largest element “bubbles up” to the end in each pass.
+
+Q3. Time complexity of bubble sort?
+A: O(n²) in worst and average cases.
+
+Q4. When is bubble sort best case?
+A: When the array is already sorted → O(n).
+
+Q5. Is bubble sort stable?
+A: Yes, it doesn’t change order of equal elements.
+
+
+---
+
+🔹 Code-Logic Questions
+
+Q6. What is the role of passes?
+A: Each pass moves the next largest element to its correct position.
+
+Q7. Why inner loop runs up to n-i-1?
+A: Because after i passes, last i elements are already sorted.
+
+Q8. How to stop early if array already sorted?
+A: Use a flag variable to check if any swap happened; if none, break loop.
+
+Q9. How to display top 5?
+A: Sort ascending and print last 5 elements.
+
+
+---
+
+A-3a/b/c (Hashing – Linear, Double, and Quadratic Probing)
+
+🔹 Common Questions
+
+Q1. What is hashing?
+A: Hashing is a technique to store and retrieve data quickly using a key.
+
+Q2. What is a hash function?
+A: It converts key (like telephone number) into an index position in hash table.
+
+Q3. What is collision?
+A: When two keys map to the same index.
+
+Q4. What is linear probing?
+A: It searches next empty slot linearly (index+1, index+2, ...).
+
+Q5. What is quadratic probing?
+A: It searches next slot using square increments (index + i²).
+
+Q6. What is double hashing?
+A: It uses a second hash function to calculate next probe position.
+
+Q7. Which method reduces clustering?
+A: Double hashing.
+
+Q8. What is clustering?
+A: Grouping of filled slots that slows down search.
+
+Q9. What is load factor?
+A: Ratio of filled slots to total slots in hash table.
+
+Q10. What happens when table is full?
+A: No more insertions possible unless table is resized.
+
+
+---
+
+🪢 SECTION B – Linked Lists
+
+
+---
+
+B-4a/b/c (Pinnacle Club using Singly Linked List)
+
+🔹 Conceptual Questions
+
+Q1. What is a linked list?
+A: A linear data structure where each element (node) contains data and a pointer to next node.
+
+Q2. What is a node?
+A: It contains member’s data (PRN, name) and pointer to next node.
+
+Q3. Difference between array and linked list?
+
+Array	Linked List
+
+Fixed size	Dynamic size
+Contiguous memory	Non-contiguous
+Direct access	Sequential access
+
+
+Q4. What is head pointer?
+A: Points to first node of the list.
+
+Q5. How to add president or secretary?
+A: President added at start, secretary at end.
+
+Q6. How to count members?
+A: Traverse list and increment count for each node.
+
+Q7. What is concatenation?
+A: Joining two lists (used in 4c).
+
+Q8. How to delete a member?
+A: Adjust links so that deleted node is skipped.
+
+
+---
+
+🔹 Code-Logic Questions
+
+Q9. Why use dynamic memory allocation (new)?
+A: To create nodes at runtime.
+
+Q10. Why head = NULL initially?
+A: Because list is empty at start.
+
+Q11. What happens if you delete head node?
+A: Move head pointer to next node.
+
+
+---
+
+B-5a/b (Cinemax Ticket Booking – Doubly Linked List)
+
+🔹 Conceptual Questions
+
+Q1. What is a doubly linked list?
+A: A list where each node has two pointers: previous and next.
+
+Q2. Why doubly list used here?
+A: So we can move forward and backward across seats.
+
+Q3. What does status field mean?
+A: 0 = available, 1 = booked.
+
+Q4. How is seat booking implemented?
+A: Change status from 0 to 1 for chosen seat.
+
+Q5. How are rows handled?
+A: Each row has its own linked list and stored in an array of pointers.
+
+Q6. How to cancel booking?
+A: Change status from 1 to 0.
+
+Q7. What is advantage of using DLL here?
+A: Easy to traverse in both directions and maintain seat order.
+
+
+---
+
+🧱 SECTION C – Stack and Queue
+
+
+---
+
+C-6 (Well-Parenthesized Expression – Stack)
+
+Q1. What is a stack?
+A: Stack is a LIFO (Last In First Out) data structure.
+
+Q2. Why stack used here?
+A: To check balanced brackets efficiently.
+
+Q3. What is push and pop?
+A: Push inserts element; pop removes last inserted element.
+
+Q4. How does algorithm work?
+A:
+
+Push opening brackets onto stack.
+
+When closing bracket appears, pop stack and check if matches.
+
+If stack empty at end → balanced.
+
+
+Q5. What happens if extra ) appears?
+A: Stack becomes empty early → unbalanced.
+
+Q6. Time complexity?
+A: O(n).
+
+
+---
+
+C-7 (Job Queue Simulation)
+
+Q1. What is a queue?
+A: Queue follows FIFO (First In First Out).
+
+Q2. Operations on queue?
+A: enqueue (add job) and dequeue (remove job).
+
+Q3. Why queues used in OS?
+A: To manage processes waiting for CPU.
+
+Q4. Difference between stack and queue?
+
+Stack	Queue
+
+LIFO	FIFO
+push/pop	enqueue/dequeue
+
+
+Q5. What happens if queue is full?
+A: Overflow condition.
+
+Q6. What if queue empty and delete operation called?
+A: Underflow condition.
+
+
+---
+
+🌳 SECTION D – Binary Search Tree (BST)
+
+Q1. What is BST?
+A: A tree where left child < parent < right child.
+
+Q2. What is a node?
+A: Contains data and two pointers (left & right).
+
+Q3. What operations can be performed?
+Insert, search, find minimum, mirror tree, count nodes, etc.
+
+Q4. What is height of tree?
+A: Length of longest path from root to leaf.
+
+Q5. How to find minimum value?
+A: Move to the leftmost node.
+
+Q6. What is mirror image of tree?
+A: Swap left and right child of every node.
+
+Q7. Time complexity for search or insert?
+A: O(h), where h = height of tree (O(log n) for balanced tree).
+
+
+---
+
+🕸️ SECTION E – Graphs
+
+Q1. What is a graph?
+A: A collection of vertices and edges.
+
+Q2. What is adjacency matrix?
+A: A 2D array where a[i][j] = 1 if there’s an edge between i and j.
+
+Q3. What is adjacency list?
+A: Stores neighbors of each vertex using linked lists.
+
+Q4. What is a connected graph?
+A: All vertices are reachable from any vertex.
+
+Q5. How to check connectivity?
+A: Use DFS or BFS traversal.
+
+Q6. Difference between directed and undirected graph?
+
+Directed	Undirected
+
+Has direction	No direction
+(A→B) ≠ (B→A)	(A–B) same as (B–A)
+
+
+Q7. Time complexity of BFS/DFS?
+A: O(V + E), where V = vertices, E = edges.
+
+
