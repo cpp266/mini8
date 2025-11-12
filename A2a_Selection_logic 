@@ -1,0 +1,320 @@
+Program Overview
+
+This program sorts an array of student percentages in ascending order using Selection Sort and displays top 5 scores vertically.
+
+Operations in this program:
+
+1. Input number of students and percentages
+
+
+2. Display original array
+
+
+3. Sort array using Selection Sort
+
+
+4. Show array after each pass with comparisons
+
+
+5. Print top 5 scores vertically
+
+
+
+
+---
+
+Step 1: Header and namespace
+
+#include <iostream>
+using namespace std;
+
+#include<iostream> → allows using cin and cout for input/output.
+
+using namespace std; → avoids writing std::cout every time.
+
+
+
+---
+
+Step 2: Main Function
+
+int main()
+{
+    int n, i, j, pass;
+    float S[20], temp;
+
+n → number of students
+
+i, j, pass → loop counters
+
+S[20] → array to store percentages (maximum 20 students)
+
+temp → temporary variable for swapping
+
+
+
+---
+
+Step 3: Input number of students and percentages
+
+cout << "\nHow many students for Selection Sort? ";
+cin >> n;
+
+cout << "Enter percentage of students:\n";
+for (i = 0; i < n; i++)
+{
+    cin >> S[i];
+}
+
+Ask user how many students
+
+Input their percentages into array S
+
+
+Example:
+
+n = 6
+
+S = [78.5, 90.2, 56.8, 88.4, 69.5, 92.3]
+
+
+
+---
+
+Step 4: Display original array
+
+cout << "\nSelection Sort: ";
+for (i = 0; i < n; i++)
+{
+    cout << S[i] << " ";
+}
+cout << endl;
+
+Prints array before sorting
+
+
+Output Example:
+
+Selection Sort: 78.5 90.2 56.8 88.4 69.5 92.3
+
+
+---
+
+Step 5: Selection Sort Algorithm
+
+for (pass = 0; pass < n - 1; pass++)
+{
+    int minI = pass;
+    int comparisons = 0;
+
+    for (j = pass + 1; j < n; j++)
+    {
+        comparisons++;
+        if (S[j] < S[minI])
+        {
+            minI = j;
+        }
+    }
+
+    if (minI != pass)
+    {
+        temp = S[pass];
+        S[pass] = S[minI];
+        S[minI] = temp;
+    }
+
+    cout << "Pass " << pass + 1 << " | Comparisons: " << comparisons << " | Array: ";
+    for (i = 0; i < n; i++)
+    {
+        cout << S[i] << " ";
+    }
+    cout << endl;
+}
+
+Explanation Line by Line
+
+1. for (pass = 0; pass < n - 1; pass++)
+
+Outer loop → goes through each pass to find the minimum element
+
+
+
+2. int minI = pass;
+
+Assume current position as minimum
+
+
+
+3. int comparisons = 0;
+
+Counts number of comparisons in this pass
+
+
+
+4. Inner loop for (j = pass + 1; j < n; j++)
+
+Compare S[j] with current minimum S[minI]
+
+
+
+5. comparisons++;
+
+Increment comparison count
+
+
+
+6. if (S[j] < S[minI]) minI = j;
+
+Update minI if a smaller element found
+
+
+
+7. if (minI != pass)
+
+Swap current element with minimum found
+
+
+
+8. temp = S[pass]; S[pass] = S[minI]; S[minI] = temp;
+
+Swap using temporary variable
+
+
+
+9. Print array after each pass with comparisons
+
+
+
+Step-by-step Example:
+
+Initial: [78.5, 90.2, 56.8, 88.4, 69.5, 92.3]
+
+Pass 1: find min = 56.8 → swap with 78.5
+
+Array: [56.8, 90.2, 78.5, 88.4, 69.5, 92.3]
+Comparisons: 5
+
+Pass 2: find min = 69.5 → swap with 90.2
+
+Array: [56.8, 69.5, 78.5, 88.4, 90.2, 92.3]
+Comparisons: 4
+
+Pass 3: 78.5 → already in place
+
+Pass 4: 88.4 → already in place
+
+Pass 5: 90.2 → already in place
+
+
+Final sorted array: [56.8, 69.5, 78.5, 88.4, 90.2, 92.3]
+
+
+---
+
+Step 6: Display Top 5 Scores Vertically
+
+cout << "\nTop 5 Scores:\n";
+for (i = n - 1; i >= n - 5 && i >= 0; i--)
+{
+    cout << S[i] << endl;
+}
+
+Loop starts from largest element (S[n-1])
+
+Prints top 5 scores vertically
+
+i >= 0 ensures program works even if students < 5
+
+
+Example Output:
+
+Top 5 Scores:
+92.3
+90.2
+88.4
+78.5
+69.5
+
+
+---
+
+Step 7: Program Output Example
+
+Input:
+
+Number of students: 6  
+Percentages: 78.5 90.2 56.8 88.4 69.5 92.3  
+Insert sorting...
+
+Output:
+
+Selection Sort: 78.5 90.2 56.8 88.4 69.5 92.3
+Pass 1 | Comparisons: 5 | Array: 56.8 90.2 78.5 88.4 69.5 92.3
+Pass 2 | Comparisons: 4 | Array: 56.8 69.5 78.5 88.4 90.2 92.3
+Pass 3 | Comparisons: 3 | Array: 56.8 69.5 78.5 88.4 90.2 92.3
+Pass 4 | Comparisons: 2 | Array: 56.8 69.5 78.5 88.4 90.2 92.3
+Pass 5 | Comparisons: 1 | Array: 56.8 69.5 78.5 88.4 90.2 92.3
+
+Top 5 Scores:
+92.3
+90.2
+88.4
+78.5
+69.5
+
+
+---
+
+Step 8: Viva Questions
+
+1. What is Selection Sort?
+
+Sorting algorithm that repeatedly selects the smallest element and puts it in correct position.
+
+
+
+2. Time Complexity?
+
+Best, Worst, Average → O(n²)
+
+
+
+3. Space Complexity?
+
+O(1) → in-place sorting
+
+
+
+4. Why do we use pass?
+
+Each pass places one element in its correct position
+
+
+
+5. Difference between Selection Sort and Bubble Sort?
+
+Selection Sort → selects min element and swaps once per pass
+
+Bubble Sort → swaps adjacent elements repeatedly
+
+
+
+6. Why count comparisons?
+
+To analyze efficiency of the algorithm
+
+
+
+7. How do you print top scores?
+
+Sort array → print from largest element (S[n-1])
+
+
+
+8. Can this program handle <5 students?
+
+Yes, loop condition i >= 0 ensures no error
+
+
+
+
