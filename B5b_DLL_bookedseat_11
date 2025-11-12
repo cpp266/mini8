@@ -1,1 +1,83 @@
+#include<iostream>
+#include<string>
+using namespace std;
 
+struct node {
+    int seat;
+    int status; // 0=available, 1=booked
+    node *next,*previous;
+};
+
+node *temp,*nnode,*head,*tail,*a[10];
+
+class list {
+public:
+    list() { head=tail=NULL; }
+    void create();
+    void displaybooked(); // Show booked seats
+    void cancle();        // Cancel booking
+};
+
+void list::create() {
+    for(int k=1;k<=10;k++) {
+        a[k]=NULL;
+        for(int i=0;i<=6;i++) {
+            nnode=new node;
+            nnode->seat=i;
+            // Make some seats already booked for demo
+            nnode->status=(i%2==0)?1:0; // Even seats booked
+            nnode->next=NULL;
+            nnode->previous=NULL;
+            if(a[k]==NULL) { a[k]=nnode; tail=nnode; }
+            else { tail->next=nnode; nnode->previous=tail; tail=nnode; }
+        }
+    }
+}
+
+void list::displaybooked() {
+    cout<<endl<<"Booked seats are: "<<endl;
+    for(int k=1;k<=10;k++) {
+        temp=a[k];
+        cout<<endl<<"Row Number= "<<k<<"\t";
+        while(temp!=NULL) {
+            if(temp->status==1) cout<<"X"<<temp->seat<<"   ";  
+            temp=temp->next;
+        }
+    }
+}
+
+void list::cancle() {
+    string m,ch;
+    cout<<endl<<"Do you want to cancel seat? ";
+    cin>>m;
+    if(m=="y" || m=="Y") {
+        int key,k1;
+        do {
+            cout<<"Enter the row number in which you want to cancel the seat: ";
+            cin>>k1;
+            temp=a[k1];
+            cout<<"Enter the seat number in row "<<k1<<" that you want to cancel: ";
+            cin>>key;
+            while(temp->seat!=key) temp=temp->next;
+            if(temp->status==1) {
+                cout<<"You have cancelled seat "<<temp->seat<<" in row = "<<k1<<endl;
+                cout<<"You will get 70% back after cutting some charges.."<<endl;
+                temp->status=0;
+            } else {
+                cout<<"ERROR!! Booking Not Found!!"<<endl;
+            }
+            cout<<endl<<"Do you want to cancel more seats tickets(y or n) : ";
+            cin>>ch;
+            cout<<endl;
+        } while(ch=="y" || ch=="Y");
+        displaybooked();
+    }
+}
+
+int main() {
+    cout<<"Welcome to Cinemax!!"<<endl;
+    list obj;
+    obj.create();
+    obj.displaybooked();
+    obj.cancle();
+}
