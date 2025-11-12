@@ -1,0 +1,357 @@
+Absolutely! Let’s go full viva-friendly, line-by-line, super basic, and detailed for your Quadratic Probing Telephone Directory code, assuming you know nothing. I’ll explain everything, give examples, and include all possible viva points so you can get full marks.
+
+
+---
+
+Program Overview
+
+This program implements a telephone directory using quadratic probing hashing.
+It can:
+
+1. Store client names and phone numbers
+
+
+2. Handle collisions (when two names map to the same index) using quadratic probing
+
+
+3. Display the table
+
+
+
+
+---
+
+Step 1: Include Libraries
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+Explanation for viva:
+
+iostream → allows input/output (cin, cout)
+
+cstring → allows string operations like strcpy (copy string) and strcmp (compare strings)
+
+using namespace std; → avoids writing std:: before every command
+
+
+
+---
+
+Step 2: Define Structure
+
+struct record {
+    char name[10];
+    int telno;
+};
+
+Explanation:
+
+struct record defines a structure to store one client’s data.
+
+name[10] → stores the client’s name (max 9 letters + null character \0).
+
+telno → stores the client’s telephone number.
+
+
+Viva Tip:
+
+Structures help store related data together, like a small container.
+
+
+
+---
+
+Step 3: Declare and Initialize Hash Table
+
+record qptelDir[10];
+
+// initialize table
+for(int i = 0; i < 10; i++) {
+    strcpy(qptelDir[i].name, "empty");
+    qptelDir[i].telno = -1;
+}
+
+Explanation:
+
+qptelDir[10] → creates a hash table with 10 slots.
+
+Each slot stores a record.
+
+Loop initializes each slot:
+
+name = "empty" → slot is free
+
+telno = -1 → no number yet
+
+
+
+Viva Tip:
+
+Initialization is important because we need to know which slots are empty for inserting new records.
+
+
+
+---
+
+Step 4: Input Number of Records
+
+int n;
+cout << "How Many Records? ";
+cin >> n;
+
+Explanation:
+
+n → number of clients the user wants to add
+
+Input from user using cin.
+
+
+Example: User enters 3 → program will insert 3 clients.
+
+
+---
+
+Step 5: Input Client Data and Compute Hash
+
+for(int i = 0; i < n; i++) {
+    char Tempname[10];
+    int TempNo;
+    cout << "\nEnter Client Name: ";
+    cin >> Tempname;
+    cout << "Enter Telephone No of client: ";
+    cin >> TempNo;
+
+    int Total = 0;
+    for(int j = 0; Tempname[j] != '\0'; j++) Total += Tempname[j];
+    int h = Total % 10;
+
+Explanation:
+
+1. Take name and telephone number from the user.
+
+
+2. Compute hash index:
+
+Total = sum of ASCII values of characters in the name.
+
+h = Total % 10 → position in table
+
+
+
+
+Example:
+
+Name = RAM
+
+ASCII: R=82, A=65, M=77 → Total = 82+65+77=224
+
+Hash index: 224 % 10 = 4 → store at position 4
+
+
+Viva Tip:
+
+Explain how ASCII sum is converted into index using modulo.
+
+
+
+---
+
+Step 6: Insert Using Quadratic Probing
+
+if(strcmp(qptelDir[h].name, "empty") == 0) {
+    strcpy(qptelDir[h].name, Tempname);
+    qptelDir[h].telno = TempNo;
+    cout << "for quadratic probing stored at position " << h << endl;
+} else {
+    cout << "for quadratic probing collision occurred for " << Tempname << " at position " << h << endl;
+    for(int k = 1; k < 10; k++) {
+        int idx = (h + k*k) % 10;
+        if(strcmp(qptelDir[idx].name, "empty") == 0) {
+            strcpy(qptelDir[idx].name, Tempname);
+            qptelDir[idx].telno = TempNo;
+            break;
+        }
+    }
+}
+
+Explanation:
+
+1. Check if slot h is empty:
+
+If yes → insert record there.
+
+
+
+2. If collision occurs:
+
+Use quadratic probing:
+
+Try index (h + 1^2) % 10, (h + 2^2) % 10, (h + 3^2) % 10, …
+
+Stop when an empty slot is found.
+
+
+
+
+
+Example:
+Insert these names:
+
+1. RAM → hash 4 → empty → store at 4
+
+
+2. AMR → hash 4 → collision → quadratic probing → (4 + 1^2)%10 = 5 → store at 5
+
+
+3. RAK → hash 2 → empty → store at 2
+
+
+
+Viva Tip:
+
+Quadratic probing reduces primary clustering compared to linear probing.
+
+Always explain the formula: new_index = (h + k^2) % table_size.
+
+
+
+---
+
+Step 7: Display Hash Table
+
+cout << "\nfor quadratic probing" << endl;
+cout << "sr.no\tName\tTel No:" << endl;
+for(int i = 0; i < 10; i++)
+    cout << i << "\t" << qptelDir[i].name << "\t" << qptelDir[i].telno << endl;
+
+Explanation:
+
+Prints all 10 slots:
+
+Index (0-9)
+
+Client name
+
+Telephone number
+
+
+
+Example Table after insertion:
+
+sr.no	Name	Tel No
+
+0	empty	-1
+1	empty	-1
+2	RAK	55555
+3	empty	-1
+4	RAM	67890
+5	AMR	12345
+6	empty	-1
+7	empty	-1
+8	empty	-1
+9	empty	-1
+
+
+
+---
+
+Step 8: Viva Questions for Full Marks
+
+1. What is hashing?
+
+A method to map data into a fixed-size table using a hash function.
+
+
+
+2. What is quadratic probing?
+
+Collision resolution → check (h + k^2) % table_size until a free slot is found.
+
+
+
+3. How is the hash index calculated?
+
+Add ASCII values of the name → modulo table size.
+
+
+
+4. Difference between linear and quadratic probing?
+
+Linear → check next slot (h+1)
+
+Quadratic → check (h+1^2, h+2^2, …)
+
+
+
+5. Why do we use "empty" and -1?
+
+To mark empty slots for insertion/search.
+
+
+
+6. Advantages of quadratic probing?
+
+Reduces primary clustering (continuous filled slots problem).
+
+
+
+7. Disadvantages?
+
+May fail if table becomes full
+
+Needs table size careful selection (preferably prime number)
+
+
+
+8. How is collision handled here?
+
+Quadratic probing → formula (h+k^2)%10.
+
+
+
+
+
+---
+
+Step 9: Real Example Walkthrough
+
+Input:
+
+Number of records: 3
+Client 1: RAM 67890
+Client 2: AMR 12345
+Client 3: RAK 55555
+
+Step-by-step insertion:
+
+RAM → hash 4 → empty → store at 4
+
+AMR → hash 4 → collision → quadratic probing → (4+1^2)%10 = 5 → store at 5
+
+RAK → hash 2 → empty → store at 2
+
+
+Output Table: (as above)
+
+
+---
+
+✅ Viva Tips:
+
+Always draw the table for your example
+
+Explain hash function calculation
+
+Explain collision handling step by step
+
+Show difference between linear and quadratic probing
+
+
+
+---
+
+If you want, I can also make a combined diagram showing both linear and quadratic probing side by side for the same inputs → this is super viva-friendly.
+
+Do you want me to make that diagram?
