@@ -1,1 +1,77 @@
+#include<iostream>
+#include<string>
+using namespace std;
 
+struct node {
+    int seat;
+    int status; // 0=available, 1=booked
+    node *next,*previous;
+};
+
+node *temp,*nnode,*head,*tail,*a[10];
+
+class list {
+public:
+    list() { head=tail=NULL; }
+    void create();
+    void displayavailable();  // Display free seats
+    void book();              // Book seats
+};
+
+void list::create() {
+    for(int k=1;k<=10;k++) {
+        a[k]=NULL;
+        for(int i=0;i<=6;i++) { // Seats 0 to 6 (7 seats)
+            nnode=new node;
+            nnode->seat=i;
+            nnode->status=0;
+            nnode->next=NULL;
+            nnode->previous=NULL;
+            if(a[k]==NULL) { a[k]=nnode; tail=nnode; }
+            else { tail->next=nnode; nnode->previous=tail; tail=nnode; }
+        }
+    }
+}
+
+void list::displayavailable() {
+    cout<<endl<<"Available seats are: "<<endl;
+    for(int k=1;k<=10;k++) {
+        temp=a[k];
+        cout<<endl<<"Row Number= "<<k<<"\t";
+        while(temp!=NULL) {
+            if(temp->status==0) cout<<"."<<temp->seat<<"   ";  
+            temp=temp->next;
+        }
+    }
+}
+
+void list::book() {
+    string m,ch;
+    cout<<endl<<"Do you want to book seat tickets? ";
+    cin>>m;
+    if(m=="y" || m=="Y") {
+        int key,k1;
+        do {
+            cout<<"Enter the row number you want to book: ";
+            cin>>k1;
+            temp=a[k1];
+            cout<<"Enter the seat number in row "<<k1<<" that you want to book: ";
+            cin>>key;
+            while(temp->seat!=key) temp=temp->next;
+            temp->status=1;
+            cout<<"Congrats ROW "<<k1<<". SEAT-NO "<<temp->seat<<" is booked"<<endl;
+            cout<<endl<<"Do you want to book more seats (y or n) : ";
+            cin>>ch;
+            cout<<endl;
+        } while(ch=="y" || ch=="Y");
+        displayavailable();
+    }       
+}
+
+int main() {
+    cout<<"Welcome to Cinemax!!"<<endl;
+    list obj;
+    obj.create();
+    obj.displayavailable();
+    obj.book();
+}
