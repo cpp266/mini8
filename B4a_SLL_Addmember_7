@@ -1,65 +1,111 @@
-#include <iostream>
-#include <cstring>
+#include<iostream>
+#include<string>
 using namespace std;
 
-struct record {
-    char name[10];
-    int telno;
+struct node {
+    int prn;
+    string name;
+    node* next;
 };
 
-int main() {
-    record hptelDir[10];
+node *temp;
 
-    // initialize table
-    for(int i = 0; i < 10; i++) {
-        strcpy(hptelDir[i].name, "empty");
-        hptelDir[i].telno = -1;
-    }
+class pinclub {
+public:
+    node *head,*tail,*nnode;
+    pinclub() { head=tail=NULL; }
 
-    int n;
-    cout << "How Many Records? ";
-    cin >> n;
+    void create();           // Add members
+    void insertion();        // Add president
+    void insertionlast();    // Add secretary
+    void count();            // Total members
+    void display();          // Display members
+};
 
-    for(int i = 0; i < n; i++) {
-        char Tempname[10];
-        int TempNo;
-        cout << "\nEnter Client Name: ";
-        cin >> Tempname;
-        cout << "Enter Telephone No of client: ";
-        cin >> TempNo;
+void pinclub::create() {
+    char m;
+    do {
+        nnode=new node;
+        nnode->next=NULL;
+        cout<<endl<<"Enter prn number: ";
+        cin>>nnode->prn;
+        cout<<endl<<"Enter name of user: ";
+        cin>>nnode->name;
+        if(head==NULL) head=tail=nnode;
+        else { tail->next=nnode; tail=nnode; }
+        cout<<endl<<"Do you want to continue(y or n): ";
+        cin>>m;
+    } while(m=='y');
+    display();
+}
 
-        int Total = 0;
-        for(int j = 0; Tempname[j] != '\0'; j++) Total += Tempname[j];
-        int h = Total % 10;
+void pinclub::insertion() {
+    nnode=new node;
+    nnode->next=NULL;
+    cout<<endl<<"Enter president name: ";
+    cin>>nnode->name;
+    cout<<endl<<"Enter prn of president: ";
+    cin>>nnode->prn;
+    nnode->next=head;
+    head=nnode;
+    display();
+}
 
-        // DOUBLE HASHING
-        if(strcmp(hptelDir[h].name, "empty") == 0) {
-            strcpy(hptelDir[h].name, Tempname);
-            hptelDir[h].telno = TempNo;
-            cout << "for double hashing stored at position " << h << endl;
-        } else {
-            cout << "for double hashing collision occurred for " << Tempname << " at position " << h << endl;
-            int m;
-            cout << "Enter the prime number smaller than size[10]: ";
-            cin >> m;
-            int step = m - (Total % m);
-            int idx = h;
-            for(int k = 1; k < 10; k++) {
-                idx = (idx + step) % 10;
-                if(strcmp(hptelDir[idx].name, "empty") == 0) {
-                    strcpy(hptelDir[idx].name, Tempname);
-                    hptelDir[idx].telno = TempNo;
-                    break;
-                }
-            }
+void pinclub::insertionlast() {
+    nnode=new node;
+    nnode->next=NULL;
+    cout<<endl<<"Enter name of secretary : ";
+    cin>>nnode->name;
+    cout<<endl<<"Enter prn of secretary: ";
+    cin>>nnode->prn;
+    tail->next=nnode;
+    tail=nnode;
+    display();
+}
+
+void pinclub::count() {
+    int c=0;
+    temp=head;
+    while(temp!=NULL) { c++; temp=temp->next; }
+    cout<<"\nTotal members in club are: "<<c<<endl;
+}
+
+void pinclub::display() {
+    cout<<endl<<"YOUR UPDATED CLUB DATA IS: "<<endl;
+    if(head==NULL) cout<<endl<<"Club is empty";
+    else {
+        cout<<"\nPRN NO.\t NAME"<<endl;
+        temp=head;
+        while(temp!=NULL) {
+            cout<<endl<<temp->prn<<"    "<<temp->name;
+            temp=temp->next;
         }
     }
+}
 
-    // print double hashing table
-    cout << "\nfor double hashing" << endl;
-    cout << "sr.no\tName\tTel No:" << endl;
-    for(int i = 0; i < 10; i++)
-        cout << i << "\t" << hptelDir[i].name << "\t" << hptelDir[i].telno << endl;
+int main() {
+    pinclub l1;
+    int choice;
+    cout<<"\nWelcome to PINNACLE Club"<<endl;
+    l1.create();
+
+    do {
+        cout<<"\n1. Insert President";
+        cout<<"\n2. Insert Secretary";
+        cout<<"\n3. Count Members";
+        cout<<"\n4. Display Members";
+        cout<<"\n5. Exit";
+        cout<<"\nEnter your choice: ";
+        cin>>choice;
+        switch(choice) {
+            case 1: l1.insertion(); break;
+            case 2: l1.insertionlast(); break;
+            case 3: l1.count(); break;
+            case 4: l1.display(); break;
+            case 5: cout<<"\nExiting..."; break;
+            default: cout<<"\nInvalid choice!";
+        }
+    } while(choice!=5);
 
     return 0;
 }
