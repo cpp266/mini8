@@ -1,0 +1,193 @@
+Sure! Let’s break this Double Hashing program down in a viva-friendly, easy-to-explain way, step by step. I’ll also give you the logic you can confidently speak in your viva.
+
+
+---
+
+1️⃣ What the program does
+
+This program stores names and telephone numbers in a hash table of size 10 using double hashing to resolve collisions.
+
+Hash table: An array (hptelDir[10]) where each index stores a record (name + tel number).
+
+Double hashing: If a collision occurs at the primary hash position, another hash function gives a step size to find the next available slot.
+
+
+
+---
+
+2️⃣ Data Structure
+
+struct record {
+    char name[10];
+    int telno;
+};
+
+name[10] → stores client's name (max 9 chars + null)
+
+telno → stores telephone number
+
+
+In viva:
+"We are using a structure to store both name and telephone together, making it easier to manage the data in a single hash table."
+
+
+---
+
+3️⃣ Initialization
+
+for(int i = 0; i < 10; i++) {
+    strcpy(hptelDir[i].name, "empty");
+    hptelDir[i].telno = -1;
+}
+
+We mark all slots as empty initially.
+
+"empty" → means the slot is available.
+
+-1 → indicates no telephone number is stored.
+
+
+Viva tip:
+"Initializing ensures we can easily check if a slot is empty when inserting."
+
+
+---
+
+4️⃣ Input
+
+cout << "How Many Records? ";
+cin >> n;
+
+User enters how many records they want to store.
+
+Then for each record, the program asks for name and telno.
+
+
+Viva tip:
+"We loop n times to insert all client records into the hash table."
+
+
+---
+
+5️⃣ Primary Hash Function
+
+int Total = 0;
+for(int j = 0; Tempname[j] != '\0'; j++) Total += Tempname[j];
+int h = Total % 10;
+
+Logic:
+
+1. Add ASCII values of all characters in the name → Total
+
+
+2. Take modulo 10 (Total % 10) → gives primary hash index h
+
+
+
+
+Example:
+
+Name = "RAM" → ASCII: R=82, A=65, M=77 → Total=224 → 224 % 10 = 4 → store at index 4.
+
+
+Viva tip:
+"We convert the string to a numeric value using ASCII sum and then use modulo operation to get a valid index within table size."
+
+
+---
+
+6️⃣ Double Hashing Logic
+
+if(strcmp(hptelDir[h].name, "empty") == 0) {
+    // store directly
+} else {
+    // collision occurred
+    int m;
+    cin >> m;
+    int step = m - (Total % m);
+    // loop to find next available slot
+}
+
+If slot empty: insert directly at h.
+
+If collision occurs:
+
+1. Ask user for a prime number m < 10 (for step calculation)
+
+
+2. Calculate step size: step = m - (Total % m)
+
+
+3. Use the formula: new_index = (current_index + step) % 10 repeatedly until we find an empty slot.
+
+
+
+
+Viva tip:
+"Double hashing uses a second hash function to calculate the step size when a collision occurs. This helps reduce clustering compared to linear or quadratic probing."
+
+
+---
+
+7️⃣ Inserting a Record
+
+idx = (idx + step) % 10;
+if(strcmp(hptelDir[idx].name, "empty") == 0) {
+    strcpy(hptelDir[idx].name, Tempname);
+    hptelDir[idx].telno = TempNo;
+    break;
+}
+
+Loop through table using step size until an empty slot is found.
+
+Insert the record there.
+
+
+Viva tip:
+"We keep adding the step size modulo table size until we find an empty slot. This ensures all slots are checked if necessary."
+
+
+---
+
+8️⃣ Printing the Table
+
+for(int i = 0; i < 10; i++)
+    cout << i << "\t" << hptelDir[i].name << "\t" << hptelDir[i].telno << endl;
+
+Prints index, name, and telephone number of all slots.
+
+
+Viva tip:
+"This helps us see the final arrangement of records after insertion and collisions have been resolved."
+
+
+---
+
+9️⃣ Key Viva Points
+
+1. Hash function: ASCII sum % table size → index.
+
+
+2. Collision handling: Double hashing uses a second hash to calculate step size.
+
+
+3. Prime number m: ensures we can visit all slots in worst case.
+
+
+4. Advantages of double hashing:
+
+Less clustering than linear/quadratic probing
+
+Efficient use of table space
+
+Can handle many collisions without long runs
+
+
+
+
+
+---
+
+If you want, I can also make a tiny flow diagram showing how a record moves in double hashing, which is super easy to explain in viva and makes it look professional.
+
+Do you want me to make that?
