@@ -1,0 +1,372 @@
+
+---
+
+Program Purpose
+
+This program checks whether a student is present or absent using:
+
+1. Linear Search → checks roll numbers one by one
+
+
+2. Binary Search → checks after sorting the roll numbers
+
+
+
+It also allows repeated searching using loops.
+
+
+---
+
+Step 1: Include Libraries
+
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+Explanation:
+
+iostream → for input/output (cin, cout)
+
+algorithm → for sort() function (needed for binary search)
+
+using namespace std; → avoids writing std:: every time
+
+
+
+---
+
+Step 2: Declare Variables
+
+int i, n, b;
+int A[5];
+char ch;
+
+Explanation:
+
+i → loop counter
+
+n → number of students
+
+b → roll number to search for (key)
+
+A[5] → stores roll numbers of students (array of size 5)
+
+ch → controls repeated searching loop
+
+
+
+---
+
+Step 3: Input Number of Students and Roll Numbers
+
+cout << "How many students are present: ";
+cin >> n;
+cout << "Enter roll no of student: ";
+for (i = 0; i < n; i++)
+{
+    cin >> A[i];
+}
+
+Explanation:
+
+Input number of students present in the class (n)
+
+Loop runs n times → stores roll numbers in array A
+
+
+Example:
+
+n = 4
+Roll numbers: 101 103 102 105
+
+
+---
+
+Step 4: Display Roll Numbers
+
+cout << "\nRoll numbers are: ";
+for (i = 0; i < n; i++)
+{
+    cout << A[i] << " ";
+}
+
+Explanation:
+
+Simply prints all roll numbers for confirmation
+
+
+Output Example:
+
+Roll numbers are: 101 103 102 105
+
+
+---
+
+Step 5: Linear Search (Check if Student is Present)
+
+do
+{
+    cout << "\nEnter key roll no: ";
+    cin >> b;
+    int match = 0;
+    for (i = 0; i < n; i++)
+    {
+        if (A[i] == b)
+        {
+            match = 1;
+            break;
+        }
+    }
+    if (match == 1)
+        cout << "Student is present\n";
+    else
+        cout << "Student is absent\n";
+    cout << "Do you want to continue (y/n): ";
+    cin >> ch;
+} while (ch == 'y');
+
+Explanation:
+
+1. Ask user for a roll number (b)
+
+
+2. match = 0 → initially assume student is absent
+
+
+3. Loop through array:
+
+If A[i] == b → found → set match = 1 and stop (break)
+
+
+
+4. Print result: present or absent
+
+
+5. Ask if user wants to search again (y/n)
+
+
+
+Example:
+
+Array: [101, 103, 102, 105]
+
+Key: 102 → found → present
+
+Key: 104 → not found → absent
+
+
+Viva Tip: Linear search is simple but slow if n is large.
+
+
+---
+
+Step 6: Prepare for Binary Search
+
+cout << "\nBinary Search\n";
+sort(A, A + n);
+cout << "Sorted roll numbers are: ";
+for (i = 0; i < n; i++)
+{
+    cout << A[i] << " ";
+}
+
+Explanation:
+
+Binary search requires sorted array
+
+sort(A, A + n) → sorts array in ascending order
+
+Display sorted roll numbers
+
+
+Example:
+Original: [101, 103, 102, 105] → Sorted: [101, 102, 103, 105]
+
+Viva Tip: Binary search cannot work on unsorted arrays
+
+
+---
+
+Step 7: Binary Search Loop
+
+int start = 0, end = n - 1, flag = 0, mid;
+char a;
+do
+{
+    cout << "\nEnter a key roll no for binary: ";
+    cin >> b;
+    start = 0;
+    end = n - 1;
+    flag = 0;
+    while (start <= end)
+    {
+        mid = (start + end) / 2;
+        if (A[mid] == b)
+        {
+            flag = 1;
+            break;
+        }
+        else if (A[mid] < b)
+        {
+            start = mid + 1;
+        }
+        else
+        {
+            end = mid - 1;
+        }
+    }
+    if (flag == 1)
+        cout << "Student is present (Binary Search)\n";
+    else
+        cout << "Student is absent (Binary Search)\n";
+    cout << "Do you want to continue binary search (y/n): ";
+    cin >> a;
+} while (a == 'y');
+
+Explanation:
+
+1. start = 0, end = n-1 → initial search range
+
+
+2. flag = 0 → assume student absent
+
+
+3. while(start <= end) → check range:
+
+mid = (start + end)/2 → middle element
+
+If A[mid] == b → found → flag = 1 → break
+
+If A[mid] < b → search right half → start = mid + 1
+
+Else → search left half → end = mid - 1
+
+
+
+4. Print present/absent
+
+
+5. Ask if user wants to search again
+
+
+
+Example:
+
+Array: [101, 102, 103, 105]
+
+Search 103:
+
+start=0, end=3 → mid=1 → A[1]=102 < 103 → start=2
+
+mid=2 → A[2]=103 → found → present
+
+
+
+Viva Tip: Binary search is faster than linear search → complexity O(log n)
+
+
+---
+
+Step 8: End Program
+
+return 0;
+
+Explanation: Program ends successfully.
+
+
+---
+
+Step 9: Sample Output
+
+How many students are present: 4
+Enter roll no of student: 101 103 102 105
+
+Roll numbers are: 101 103 102 105
+
+Enter key roll no: 102
+Student is present
+Do you want to continue (y/n): y
+
+Enter key roll no: 104
+Student is absent
+Do you want to continue (y/n): n
+
+Binary Search
+Sorted roll numbers are: 101 102 103 105
+
+Enter a key roll no for binary: 103
+Student is present (Binary Search)
+Do you want to continue binary search (y/n): n
+
+
+---
+
+Step 10: Viva Questions
+
+1. What is linear search?
+
+Search element one by one until found → simple, works on unsorted data
+
+
+
+2. What is binary search?
+
+Search in sorted array → divide & conquer → faster
+
+
+
+3. Why do we sort array before binary search?
+
+Binary search only works on sorted arrays
+
+
+
+4. Complexity:
+
+Linear search → O(n)
+
+Binary search → O(log n)
+
+
+
+5. What is the role of mid in binary search?
+
+Middle element → divide array into two halves
+
+
+
+6. Can you continue searching multiple times?
+
+Yes, using do-while loop
+
+
+
+7. Difference between linear and binary search?
+
+Linear → sequential → slower
+
+Binary → sorted → faster
+
+
+
+
+
+---
+
+Step 11: Tips for Viva Full Marks
+
+Draw array and show search step-by-step
+
+Explain loop logic clearly
+
+Explain why binary search is faster
+
+Mention sorted array requirement
+
+
+
+---
+
+If you want, I can also draw a visual diagram showing both linear and binary search on one array step by step, which is super viva-friendly and full marks material.
+
+Do you want me to make that diagram?
